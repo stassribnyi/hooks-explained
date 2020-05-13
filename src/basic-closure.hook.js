@@ -6,6 +6,7 @@
 export const useState = (initialState) => {
   let innerState = initialState;
 
+  // this must be a function, otherwise we end up with stale value
   const state = () => innerState;
   const setState = (newState) => {
     innerState = newState;
