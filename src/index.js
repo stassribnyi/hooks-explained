@@ -1,23 +1,26 @@
 import { useState as useBasicUseState } from './basic-closure.hook.js';
 import { Counter } from './counter.component.js';
 
-const App = () => {
+const renderBasicHookExample = () => {
   const [basicCounter, setBasicCounter] = useBasicUseState(10);
 
-  const BasicCounter = (value, onChange) =>
-    Counter(document.getElementById('basic-closure-hook'), value, onChange);
+  const CounterComponent = Counter(
+    document.getElementById('basic-closure-hook')
+  );
 
-  const basicCounterRenderer = () => {
-    const instance = BasicCounter(basicCounter(), (newCounter) => {
+  const createCounterComponent = () => {
+    const destroy = CounterComponent(basicCounter(), (newCounter) => {
       setBasicCounter(newCounter);
-      instance.destroy();
-      basicCounterRenderer();
+      destroy();
+      createCounterComponent();
     });
-
-    instance.render();
   };
 
-  basicCounterRenderer();
+  createCounterComponent();
+};
+
+const App = () => {
+  renderBasicHookExample();
 };
 
 App();

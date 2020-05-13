@@ -1,22 +1,35 @@
-export const Counter = (parentElement, value, onChange) => ({
-  render() {
-    const decrement = document.createElement('button');
-    decrement.innerText = '-';
-    decrement.addEventListener('click', () => onChange(value - 1));
+/**
+ * Creates counter component
+ * @param {*} parentElement Parent element content will be assigned to.
+ * @returns Destroy callback
+ */
+export const Counter = (parentElement) => (value, onChange) => {
+  const handleDecrement = () => onChange(value - 1);
+  const handleIncrement = () => onChange(value + 1);
 
-    const increment = document.createElement('button');
-    increment.innerText = '+';
-    increment.addEventListener('click', () => onChange(value + 1));
+  const container = document.createElement('div');
+  const decrement = document.createElement('button');
+  const increment = document.createElement('button');
+  const counter = document.createElement('input');
 
-    const counter = document.createElement('input');
-    counter.value = value;
-    counter.readOnly = true;
+  decrement.innerText = '-';
+  increment.innerText = '+';
+  counter.value = value;
+  counter.readOnly = true;
 
-    parentElement.appendChild(decrement);
-    parentElement.appendChild(counter);
-    parentElement.appendChild(increment);
-  },
-  destroy() {
-    parentElement.innerHTML = '';
-  },
-});
+  increment.addEventListener('click', handleIncrement);
+  decrement.addEventListener('click', handleDecrement);
+
+  const itemsToRender = [decrement, , counter, increment];
+
+  itemsToRender.forEach((item) => container.appendChild(item));
+  parentElement.appendChild(container);
+
+  return () => {
+    decrement.removeEventListener('click', handleDecrement);
+    increment.removeEventListener('click', handleIncrement);
+
+    itemsToRender.forEach((item) => container.removeChild(item));
+    parentElement.removeChild(container);
+  };
+};
