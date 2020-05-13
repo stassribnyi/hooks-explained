@@ -2,9 +2,9 @@
 
 Here is my work through the article explaining how react hooks works. [Original Article](https://www.netlify.com/blog/2019/03/11/deep-dive-how-do-react-hooks-really-work/)
 
-> **Short summary:** basically, hooks are just closures which contains its local state and exposes readonly value and its setter.
+> **Short summary:** basically, hooks can be implemented as closures which contain its local state and exposes readonly value and its setter.
 
-Actual implementation of hooks are a little bit more complex, it uses some kind of module to persist state between renders.
+Actual implementation of hooks might be much more complex, looks like it uses some kind of global state to persist local states between renders.
 
 Additional articles:
 
