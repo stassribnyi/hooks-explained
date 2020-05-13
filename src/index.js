@@ -2,6 +2,23 @@ import { useState as useBasicUseState } from './basic-closure.hook.js';
 import { Counter } from './counter.component.js';
 import { ReactLike } from './react-like.module.js';
 
+const counterHook = (initialValue) => {
+  const [counter, setCounter] = ReactLike.useState(initialValue);
+  const [isBiggerThenTen, setIsBiggerThenTen] = ReactLike.useState(false);
+
+  ReactLike.useEffect(() => {
+    console.log(`counter has changed: ${counter}`);
+
+    setIsBiggerThenTen(counter > initialValue);
+  }, [counter]);
+
+  ReactLike.useEffect(() => {
+    console.log(`counter is bigger then ${initialValue}: ${isBiggerThenTen}`);
+  }, [isBiggerThenTen]);
+
+  return { counter, setCounter };
+};
+
 const StatefulCounter = () => {
   const [counter, setCounter] = ReactLike.useState(10);
   const [isBiggerThenTen, setIsBiggerThenTen] = ReactLike.useState(false);
@@ -19,6 +36,20 @@ const StatefulCounter = () => {
   }, [isBiggerThenTen]);
 
   const CounterComponent = Counter(document.getElementById('react-like-hook'));
+
+  return {
+    render() {
+      return CounterComponent(counter, setCounter);
+    },
+  };
+};
+
+const StatefulCounterWithCustomHook = () => {
+  const { counter, setCounter } = counterHook(14);
+
+  const CounterComponent = Counter(
+    document.getElementById('react-like-custom-hook')
+  );
 
   return {
     render() {
@@ -46,14 +77,17 @@ const renderBasicHookExample = () => {
 };
 
 const renderReactLikeHookExample = () => {
-  let destroyApp = null;
+  let destroyAppComponents = null;
 
   setInterval(() => {
-    if (destroyApp) {
-      destroyApp();
+    if (destroyAppComponents) {
+      destroyAppComponents.forEach((destroy) => destroy());
     }
 
-    destroyApp = ReactLike.render(StatefulCounter);
+    destroyAppComponents = ReactLike.render([
+      StatefulCounter,
+      StatefulCounterWithCustomHook,
+    ]);
   }, 500);
 };
 

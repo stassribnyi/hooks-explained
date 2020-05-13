@@ -4,11 +4,15 @@ export const ReactLike = (() => {
 
   return {
     render(Component) {
-      const instance = Component();
+      const instance = Array.isArray(Component)
+        ? Component.map((item) => item())
+        : Component();
 
       currentHookIndex = 0;
 
-      return instance.render();
+      return Array.isArray(instance)
+        ? instance.map((item) => item.render())
+        : instance.render();
     },
     useState(initialState) {
       hooks[currentHookIndex] = hooks[currentHookIndex] || initialState;
