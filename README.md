@@ -14,7 +14,7 @@ Additional articles:
 - [JS implementation of hooks](https://github.com/getify/TNG-Hooks)
 - [Why React is -NOT- Reactive](https://www.swyx.io/speaking/react-not-reactive/)
 
-##Run
+## Run
 
 To run this app locally, please follow steps below:
 
