@@ -1,4 +1,4 @@
-#React Hooks explained
+# React Hooks explained
 
 Here is my work through the article explaining how react hooks works. [Original Article](https://www.netlify.com/blog/2019/03/11/deep-dive-how-do-react-hooks-really-work/)
 
