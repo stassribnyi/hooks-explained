@@ -5,6 +5,10 @@ import { ReactLike } from './react-like.module.js';
 const StatefulCounter = () => {
   const [counter, setCounter] = ReactLike.useState(10);
 
+  ReactLike.useEffect(() => {
+    console.log(`counter has changed: ${counter}`);
+  }, [counter]);
+
   const CounterComponent = Counter(document.getElementById('react-like-hook'));
 
   return {
@@ -34,13 +38,14 @@ const renderBasicHookExample = () => {
 
 const renderReactLikeHookExample = () => {
   let destroyApp = null;
+
   setInterval(() => {
     if (destroyApp) {
       destroyApp();
     }
 
     destroyApp = ReactLike.render(StatefulCounter);
-  }, 200);
+  }, 500);
 };
 
 const App = () => {
