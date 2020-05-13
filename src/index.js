@@ -4,10 +4,19 @@ import { ReactLike } from './react-like.module.js';
 
 const StatefulCounter = () => {
   const [counter, setCounter] = ReactLike.useState(10);
+  const [isBiggerThenTen, setIsBiggerThenTen] = ReactLike.useState(false);
 
   ReactLike.useEffect(() => {
     console.log(`counter has changed: ${counter}`);
+
+    setIsBiggerThenTen(counter > 10);
   }, [counter]);
+
+  ReactLike.useEffect(() => {
+    console.log(`counter is bigger then ten: ${isBiggerThenTen}`);
+
+    setIsBiggerThenTen(counter > 10);
+  }, [isBiggerThenTen]);
 
   const CounterComponent = Counter(document.getElementById('react-like-hook'));
 

@@ -1,21 +1,24 @@
 export const ReactLike = (() => {
-  let innerState = null;
-  let innerDeps = [];
+  const hooks = [];
+  let currentHookIndex = 0;
 
   return {
     render(Component) {
       const instance = Component();
 
+      currentHookIndex = 0;
+
       return instance.render();
     },
     useState(initialState) {
-      innerState = innerState || initialState;
+      hooks[currentHookIndex] = hooks[currentHookIndex] || initialState;
 
+      const stateHookIndex = currentHookIndex;
       const setState = (newState) => {
-        innerState = newState;
+        hooks[stateHookIndex] = newState;
       };
 
-      return [innerState, setState];
+      return [hooks[currentHookIndex++], setState];
     },
     useEffect(callback, deps) {
       if (!Array.isArray(deps)) {
@@ -23,14 +26,17 @@ export const ReactLike = (() => {
       }
 
       const hasDeps = deps.length > 0;
+      const currentDeps = hooks[currentHookIndex] || [];
       const hasChanges =
-        deps.length !== innerDeps.length ||
-        deps.some((dependency) => !innerDeps.includes(dependency));
+        deps.length !== currentDeps.length ||
+        deps.some((dependency) => !currentDeps.includes(dependency));
 
       if (!hasDeps || hasChanges) {
         callback();
-        innerDeps = deps;
+        hooks[currentHookIndex] = deps;
       }
+
+      currentHookIndex++;
     },
   };
 })();
