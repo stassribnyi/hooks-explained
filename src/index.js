@@ -2,7 +2,7 @@ import { useState as useBasicUseState } from './basic-closure.hook.js';
 import { Counter } from './counter.component.js';
 import { ReactLike } from './react-like.module.js';
 
-const counterHook = (initialValue) => {
+const useCounterHook = (initialValue) => {
   const [counter, setCounter] = ReactLike.useState(initialValue);
   const [isBiggerThenTen, setIsBiggerThenTen] = ReactLike.useState(false);
 
@@ -45,7 +45,7 @@ const StatefulCounter = () => {
 };
 
 const StatefulCounterWithCustomHook = () => {
-  const { counter, setCounter } = counterHook(14);
+  const { counter, setCounter } = useCounterHook(14);
 
   const CounterComponent = Counter(
     document.getElementById('react-like-custom-hook')
